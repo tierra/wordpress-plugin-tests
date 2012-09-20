@@ -26,6 +26,24 @@ How to integrate with your plugin
 5. [Activate Travis CI](http://travis-ci.org/profile) for your plugin
 6. Add tests to the `tests/` folder following the instructions below
 
+Running the tests locally
+----------------------------------
+First, set up the WP testing framework: http://make.wordpress.org/core/handbook/automated-testing/#installation
+
+Then, add the environment variables to your `.bashrc` file:
+
+```bash
+export WP_TESTS_DIR=~/wordpress-tests
+export WP_CORE_DIR=~/path/to/wordpress-core
+```
+
+Finally, run the tests:
+
+```bash
+cd /path/to/your-plugin/tests
+phpunit
+```
+
 The Tests
 ---------
 * Each test file should live in the `tests/` folder and should be named in the format of `test_{name_of_test}.php`.
