@@ -28,4 +28,4 @@ plugin_dir=$WP_CORE_DIR/wp-content/plugins/$plugin_slug
 cd ..
 mv $plugin_slug $plugin_dir
 
-cd $plugin_dir/tests
+cd $plugin_dir
