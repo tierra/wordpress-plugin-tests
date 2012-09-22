@@ -1,80 +1,56 @@
 WordPress Plugin Tests
 ======================
 
-A Travis CI compatible unit testing architecture for WordPress plugins that utilizes [WordPress core's official unit-testing framework](http://unit-tests.trac.wordpress.org/browser/trunk) and [PHPUnit](https://github.com/sebastianbergmann/phpunit/)
+Unit testing skeleton files for WordPress plugins that utilizes
+[WordPress's unit testing framework](http://unit-tests.trac.wordpress.org/browser/trunk)
+and [PHPUnit](https://github.com/sebastianbergmann/phpunit/). Provides methods
+of unit testing your WordPress plugin in a local installation of WordPress as
+well as using [Travis CI](http://travis-ci.org/).
 
-[![Build Status](https://secure.travis-ci.org/benbalter/wordpress-plugin-tests.png)](http://travis-ci.org/benbalter/wordpress-plugin-tests)
-
-How it Works
+Installation
 ------------
-* Automatically fires after every commit (or you can specificy certain branches)
-* Downloads and sets up multiple versions of WordPress and PHP (as many as you want to specify)
-* Downloads the [WordPress unit testing framework](http://unit-tests.trac.wordpress.org/browser/trunk) if it doesn't already exist in the `tests/wordpress-tests` directory as a submodule
-* Runs all the tests and e-mails you on failure
 
-Assumptions
-------------
-* You have a WordPress plugin in GitHub (and thus a GitHub account)
-* You posses basic knowledge of how to add and edit files using git
+Copy `.travis.yml`, `bootstrap_tests.php`, `phpunit.xml`, and the `tests`
+directory into the root folder of your plugin.
 
-How to integrate with your plugin
-----------------------------------
-1. Place [`.travis.yml`](https://github.com/benbalter/wordpress-plugin-tests/blob/master/.travis.yml) file in your plugin's root folder (you may want to [customize your build settings](http://about.travis-ci.org/docs/user/build-configuration/) here)
-2. Create a subfolder of your plugin called `tests/` and copy over the [`all.php`](https://github.com/benbalter/wordpress-plugin-tests/blob/master/tests/All.php), [`bootstrap.php`](https://github.com/benbalter/wordpress-plugin-tests/blob/master/tests/bootstrap.php), and [`phpunit.xml`](https://github.com/benbalter/wordpress-plugin-tests/blob/master/tests/phpunit.xml) files from this repo's [`test/`](https://github.com/benbalter/wordpress-plugin-tests/tree/master/tests) folder
-3. Customize the newly coppied [`/tests/bootstrap.php`](https://github.com/benbalter/wordpress-plugin-tests/blob/master/tests/bootstrap.php) with the path to your plugin file 
-4. If you want to be able to test locally, create an svn checkout of the testing framework in the the `tests/` folder by running the command `svn co --ignore-externals http://unit-tests.svn.wordpress.org/trunk tests/wordpress-tests` from your plugin's root directory. This folder will be ignored by git. (*optional*)
-5. [Activate Travis CI](http://travis-ci.org/profile) for your plugin
-6. Add tests to the `tests/` folder following the instructions below
+Writing Unit Tests
+------------------
 
-Running the tests locally
-----------------------------------
-First, set up the WP testing framework: http://make.wordpress.org/core/handbook/automated-testing/#installation
+Create all new test cases under the `tests` folder with filenames prefixed with
+`test_`. In those files, create a new class (name does not matter at all, but
+it's recommended to prefix class names with `WP_Test_`) that extends
+`WP_UnitTestCase`. All methods in this class prefixed with `test_` will be run
+as unit tests. See the [PHPUnit documentation](http://www.phpunit.de/manual/current/en/)
+for available assertions and other API available for writing tests.
 
-Then, add the environment variables to your `.bashrc` file:
+An example has been provided at `tests/test_wordpress_plugin_tests.php`.
 
-```bash
-export WP_TESTS_DIR=~/wordpress-tests
-export WP_CORE_DIR=~/path/to/wordpress-core
-```
+Running Unit Tests Locally
+--------------------------
 
-Finally, run the tests:
+1. Checkout a copy of the WordPress unit tests from Subversion:
+    svn checkout http://unit-tests.svn.wordpress.org/trunk wordpress-tests
+2. Copy your plugin (along with unit testing files) into the copy of WordPress
+   that was included in the unit tests checkout under: `wordpress/wp-content/plugins`
+3. Copy the `wp-tests-config-sample.php` file in the root `wordpress-tests`
+   folder to `wp-tests-config.php`, and make the appropriate changes pointing
+   it to a new, empty MySQL database it can use for testing. DO NOT USE A
+   WORKING WORDPRESS DATABASE, IT WILL BE LOST!
+4. Run `phpunit` from your plugin's root folder.
 
-```bash
-cd /path/to/your-plugin/tests
-phpunit
-```
+Configuring Travis CI
+---------------------
 
-The Tests
----------
-* Each test file should live in the `tests/` folder and should be named in the format of `test_{name_of_test}.php`.
-* Each test file should contain a single class named in the form of `WP_Test_{name_of_test}` that extends `WP_UnitTestCase`. 
-* Example Tests: [WP Document Revisions](https://github.com/benbalter/WP-Document-Revisions/tree/master/tests)
+Using Travis CI to run your unit tests absolutely requires that your plugin
+is maintained on GitHub in a public repository. This will not work otherwise.
 
-Note
-----
-There's a separate branch [`setup.sh`](https://github.com/benbalter/wordpress-plugin-tests/tree/setup) which contains setup and config files which are pulled down on the fly when testing
+1. [Activate Travis CI](http://travis-ci.org/profile) for your plugin.
+2. The first test run needs to be triggered by a push to your plugin's GitHub
+   repository after you have activated it in Travis CI.
 
-Alternate Setup
----------------
-If you need to unit test more than one WordPress plugin, [@scribu's alternate setup method](https://github.com/benbalter/wordpress-plugin-tests/issues/9#issuecomment-8567084) may be attractive.
+Any git push to your plugin repository from here on out will automatically
+trigger new test runs on Travis CI.
 
-How to Contribute
------------------
-1. Fork the project to your account, make changes, and submit a pull request
-1. Integrate with your plugin and open issues / feature requests as you see fit
-
-Changelog
----------
-* 9/15/2012 - Removed `wordpress-tests` submodule in favor of core's SVN
-* 4/16/2012 - Initial commit of skelton based off of (legacy) core testing framework
-* 6/30/2012 - Complete rewrite to rely on newer wordpress-tests framework and better PHPUnit integration
-
-Roadmap/todo
-------------
-* Include git-based core testing framework as submodule when there's an official git version
-* Ability to integrate with plugins as a submodule to allow for update
-* Ability to customize configuration as pulled down from `setup.sh`
-
-Contributors
-------------
-Special thanks to @johnpbloch for doing much of the legwork on the rewrite.
+You will likely want to customize `.travis.yml` to suite your plugin's needs in
+regards to compatible versions of PHP, WordPress, and whether it supports
+multisite or not.
