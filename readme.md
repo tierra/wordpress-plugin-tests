@@ -30,7 +30,7 @@ Running Unit Tests Locally
 
 1. Checkout a copy of the WordPress unit tests from Subversion:
 
-    svn checkout http://unit-tests.svn.wordpress.org/trunk wordpress-tests
+   ```svn checkout http://unit-tests.svn.wordpress.org/trunk wordpress-tests```
 
 2. Copy your plugin (along with unit testing files) into the copy of WordPress
    that was included in the unit tests checkout under: `wordpress/wp-content/plugins`
