@@ -28,5 +28,5 @@ $GLOBALS['wp_tests_options'] = array(
 if( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	require getenv( 'WP_TESTS_DIR' ) . '/bootstrap.php';
 } else {
-	require dirname( dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) ) . '/bootstrap.php';
+	require dirname( dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) . '/bootstrap.php';
 }
