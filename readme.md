@@ -10,8 +10,10 @@ well as using [Travis CI](http://travis-ci.org/).
 Installation
 ------------
 
-Copy `.travis.yml`, `bootstrap_tests.php`, `phpunit.xml`, and the `tests`
-directory into the root folder of your plugin.
+1. Copy `.travis.yml`, `bootstrap_tests.php`, `phpunit.xml`, and the `tests`
+   directory into the root folder of your plugin.
+2. Open `bootstrap_tests.php` and update the `active_plugins` setting to point
+   to your main plugin file.
 
 Writing Unit Tests
 ------------------

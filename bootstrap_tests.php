@@ -1,6 +1,7 @@
 <?php
 /**
- * Bootstrap the plugin unit testing environment.
+ * Bootstrap the plugin unit testing environment. Customize 'active_plugins'
+ * setting below to point to your main plugin file.
  *
  * Requires WordPress Unit Tests (http://unit-test.svn.wordpress.org/trunk/).
  *
@@ -9,9 +10,8 @@
 
 // Add this plugin to WordPress for activation so it can be tested.
 
-$wp_tests_plugin_slug = basename( dirname( __FILE__ ) );
 $GLOBALS['wp_tests_options'] = array(
-	'active_plugins' => array( "{$wp_tests_plugin_slug}/{$wp_tests_plugin_slug}.php" ),
+	'active_plugins' => array( "your-plugin-slug/your-main-plugin-file.php" ),
 );
 
 // If the wordpress-tests repo location has been customized (and specified
