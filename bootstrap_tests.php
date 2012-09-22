@@ -4,18 +4,14 @@
  *
  * Requires WordPress Unit Tests (http://unit-test.svn.wordpress.org/trunk/).
  *
- * Usage: Add any plugin(s) you want activated during the tests to the
- *        active_plugins array below. The value should be the path to the
- *        plugin relative to wp-content.
- *
- * Note: Do note change the name of this file. PHPUnit will automatically fire
- *       this file when run.
- *
  * @package wordpress-plugin-tests
  */
 
+// Add this plugin to WordPress for activation so it can be tested.
+
+$wp_tests_plugin_slug = basename( dirname( __FILE__ ) );
 $GLOBALS['wp_tests_options'] = array(
-	'active_plugins' => array( 'your-plugin/your-plugin.php' ),
+	'active_plugins' => array( "{$wp_tests_plugin_slug}/{$wp_tests_plugin_slug}.php" ),
 );
 
 // If the wordpress-tests repo location has been customized (and specified
