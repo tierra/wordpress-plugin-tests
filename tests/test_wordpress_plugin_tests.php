@@ -19,24 +19,33 @@ class WP_Test_WordPress_Plugin_Tests extends WP_UnitTestCase {
 	/**
 	 * If these tests are being run on Travis CI, verify that the version of
 	 * WordPress installed is the version that we requested.
+	 *
+	 * @requires PHP 5.3
 	 */
 	function test_wp_version() {
-		
-		if ( !getenv( 'TRAVIS_PHP_VERSION' ) )
+
+		if ( !getenv( 'TRAVIS' ) )
 			$this->markTestSkipped( 'Test skipped since Travis CI was not detected.' );
 
-		//grab the requested version
-		$requested_version = getenv( 'WP_VERSION' );
+		$requested_version = getenv( 'WP_VERSION' ) . '-src';
 
-		//trunk is always "master" in github terms, but WordPress has a specific way of describing it
-		//grab the exact version number to verify that we're on trunk
-		if ( $requested_version == 'master' ) {
-			$file = file_get_contents( 'https://raw.github.com/WordPress/WordPress/master/wp-includes/version.php' );
+		// The "master" version requires special handling.
+		if ( $requested_version == 'master-src' ) {
+			$file = file_get_contents( 'https://raw.github.com/tierra/wordpress/master/src/wp-includes/version.php' );
 			preg_match( '#\$wp_version = \'([^\']+)\';#', $file, $matches );
 			$requested_version = $matches[1];
 		}
 
 		$this->assertEquals( get_bloginfo( 'version' ), $requested_version );
+
+	}
+
+	/**
+	 * Ensure that the plugin has been installed and activated.
+	 */
+	function test_plugin_activated() {
+
+		$this->assertTrue( is_plugin_active( 'plugin-slug/main-plugin-file.php' ) );
 
 	}
 
