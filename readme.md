@@ -18,7 +18,7 @@ Installation
 Running Unit Tests Locally
 --------------------------
 
-1. Clone a copy of the WordPress from this GitHub mirror of the official
+1. Clone a copy of WordPress from this GitHub mirror of the official
    develop.svn.wordpress.org repository:
 
    ```git clone https://github.com/tierra/wordpress.git```
