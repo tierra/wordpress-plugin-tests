@@ -1,19 +1,35 @@
 WordPress Plugin Tests
 ======================
 
-Unit testing skeleton files for WordPress plugins that utilizes
-[WordPress's unit testing framework](http://unit-tests.trac.wordpress.org/browser/trunk)
-and [PHPUnit](https://github.com/sebastianbergmann/phpunit/). Provides methods
-of unit testing your WordPress plugin in a local installation of WordPress as
-well as using [Travis CI](http://travis-ci.org/).
+This repo contains unit testing skeleton files designed for use in WordPress
+plugins that utilize WordPress's own unit testing framework and
+[PHPUnit](https://github.com/sebastianbergmann/phpunit/). We've outlined two
+methods of unit testing your WordPress plugin. First within a local installation
+of WordPress, and a second method using [Travis CI](http://travis-ci.org/).
 
 Installation
 ------------
 
-1. Copy `.travis.yml`, `bootstrap_tests.php`, `phpunit.xml`, and the `tests`
-   directory into the root folder of your plugin.
-2. Open `bootstrap_tests.php` and update the `active_plugins` setting to point
+1. Copy `.travis.yml`, `phpunit.xml.dist`, and the `tests` directory into the
+   root folder of your plugin.
+2. Open `tests/bootstrap.php` and update the `active_plugins` setting to point
    to your main plugin file.
+
+Running Unit Tests Locally
+--------------------------
+
+1. Clone a copy of the WordPress from this GitHub mirror of the official
+   develop.svn.wordpress.org repository:
+
+   ```git clone https://github.com/tierra/wordpress.git```
+
+2. Copy your plugin (along with unit testing files) into the copy of WordPress
+   that was included in the clone above under: `src/wp-content/plugins`
+3. Copy the `wp-tests-config-sample.php` file in the root of the `wordpress`
+   folder to `wp-tests-config.php`, and make the appropriate changes pointing
+   it to a new, empty MySQL database it can use for testing. DO NOT USE A
+   WORKING WORDPRESS DATABASE, IT WILL BE LOST!
+4. Run `phpunit` from your plugin's root folder.
 
 Writing Unit Tests
 ------------------
@@ -26,21 +42,6 @@ as unit tests. See the [PHPUnit documentation](http://www.phpunit.de/manual/curr
 for available assertions and other API available for writing tests.
 
 An example has been provided at `tests/test_wordpress_plugin_tests.php`.
-
-Running Unit Tests Locally
---------------------------
-
-1. Checkout a copy of the WordPress unit tests from Subversion:
-
-   ```svn checkout http://unit-tests.svn.wordpress.org/trunk wordpress-tests```
-
-2. Copy your plugin (along with unit testing files) into the copy of WordPress
-   that was included in the unit tests checkout under: `wordpress/wp-content/plugins`
-3. Copy the `wp-tests-config-sample.php` file in the root `wordpress-tests`
-   folder to `wp-tests-config.php`, and make the appropriate changes pointing
-   it to a new, empty MySQL database it can use for testing. DO NOT USE A
-   WORKING WORDPRESS DATABASE, IT WILL BE LOST!
-4. Run `phpunit` from your plugin's root folder.
 
 Configuring Travis CI
 ---------------------
@@ -56,5 +57,18 @@ Any git push to your plugin repository from here on out will automatically
 trigger new test runs on Travis CI.
 
 You will likely want to customize `.travis.yml` to suite your plugin's needs in
-regards to compatible versions of PHP, WordPress, and whether it supports
-multisite or not.
+regards to compatible versions of PHP and WordPress.
+
+### Using Grunt? No problem.
+
+Just add these commands to your `before_script` step in `.travis.yml`:
+
+```
+    - npm install -g grunt-cli
+    - npm install
+```
+
+If you use the same method that WordPress does for
+[adding a phpunit task](http://core.trac.wordpress.org/browser/trunk/Gruntfile.js)
+to your plugin, then you can just use `grunt test` instead of `phpunit` for your
+`script`.
