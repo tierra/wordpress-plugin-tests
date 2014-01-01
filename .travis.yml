@@ -37,7 +37,9 @@ matrix:
 before_script:
     - export PLUGIN_SLUG=$(basename $(pwd))
     - git clone https://github.com/tierra/wordpress.git /tmp/wordpress
-    - git clone . "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+# - git clone . "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+    - cd ..
+    - mv $PLUGIN_SLUG "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
     - cd /tmp/wordpress
     - git checkout $WP_VERSION
     - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
