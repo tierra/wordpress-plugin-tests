@@ -29,17 +29,17 @@ matrix:
     - php: "5.3"
       env: WP_VERSION=master
     - php: "5.4"
-      env: WP_VERSION=3.8
+      env: WP_VERSION=3.8.1
     - php: "5.2"
-      env: WP_VERSION=3.8
+      env: WP_VERSION=3.8.1
 
 # Clones WordPress and configures our testing environment.
 before_script:
     - export PLUGIN_SLUG=$(basename $(pwd))
-    - git clone https://github.com/tierra/wordpress.git /tmp/wordpress
-    - git clone . "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
+    - git clone --depth=50 --branch="$WP_VERSION" git://develop.git.wordpress.org/ /tmp/wordpress
+    - cd ..
+    - mv "$PLUGIN_SLUG" "/tmp/wordpress/src/wp-content/plugins/$PLUGIN_SLUG"
     - cd /tmp/wordpress
-    - git checkout $WP_VERSION
     - mysql -e "CREATE DATABASE wordpress_tests;" -uroot
     - cp wp-tests-config-sample.php wp-tests-config.php
     - sed -i "s/youremptytestdbnamehere/wordpress_tests/" wp-tests-config.php
