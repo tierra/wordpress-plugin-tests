@@ -23,7 +23,7 @@ Running Unit Tests Locally
 1. Clone a copy of WordPress from this GitHub mirror of the official
    develop.svn.wordpress.org repository:
 
-   ```git clone https://github.com/tierra/wordpress.git```
+   ```git clone git://develop.git.wordpress.org/ wordpress```
 
 2. Copy your plugin (along with unit testing files) into the copy of WordPress
    that was included in the clone above under: `src/wp-content/plugins`
