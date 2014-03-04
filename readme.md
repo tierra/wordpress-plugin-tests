@@ -7,6 +7,8 @@ plugins that utilize WordPress's own unit testing framework and
 methods of unit testing your WordPress plugin. First within a local installation
 of WordPress, and a second method using [Travis CI](http://travis-ci.org/).
 
+[![Build Status](https://travis-ci.org/tierra/wordpress-plugin-tests.png?branch=master)](https://travis-ci.org/tierra/wordpress-plugin-tests)
+
 Installation
 ------------
 
