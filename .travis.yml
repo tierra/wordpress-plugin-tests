@@ -1,5 +1,8 @@
 # Travis CI Configuration File
 
+# Use Travis CI's faster Docker-based infrastructure.
+sudo: false
+
 # Tell Travis CI we're using PHP
 language: php
 
